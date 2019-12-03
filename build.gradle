@@ -1,0 +1,104 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.2.30'
+        springBootVersion = '2.0.4.RELEASE'
+    }
+    repositories {
+        maven { url "http://nexus.blacklake.tech/repository/maven-public/" }
+        mavenCentral()
+    }
+    dependencies {
+        /**
+         * https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/
+         * The Spring Boot Gradle Plugin provides Spring Boot support in Gradle.
+         * It allows you to package executable jar or war archives, run Spring Boot applications, and use the dependency management provided by spring-boot-dependencies.
+         * Spring Boot’s Gradle plugin requires Gradle 5.x (4.10 is also supported but this support is deprecated and will be removed in a future release).
+         */
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.21'
+}
+
+allprojects {
+    apply plugin: "idea"
+}
+
+configure(subprojects.findAll { it.name != 'barren-demo' }) {
+    apply plugin: 'kotlin'
+//    apply plugin: 'kotlin-spring'
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+
+    buildscript {
+        ext {
+            kotlinVersion = '1.2.30'
+            springBootVersion = '2.0.4.RELEASE'
+        }
+        repositories {
+            maven { url "http://nexus.blacklake.tech/repository/maven-public/" }
+            mavenCentral()
+        }
+    }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter:2.0.4.RELEASE') {
+            exclude(module: 'commons-logging')
+        }
+        compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version:'1.2.21'
+        compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version:'1.2.21'
+        compile 'com.xuxueli:xxl-job-core:2.0.2'
+        testCompile "org.jetbrains.kotlin:kotlin-test"
+        testCompile "org.jetbrains.kotlin:kotlin-test-junit"
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:2.2.1.RELEASE"
+    }
+
+    repositories {
+        maven { url "http://nexus.blacklake.tech/repository/maven-public/" }
+        mavenLocal()
+    }
+
+    compileJava.dependsOn(processResources)
+
+
+}
+
+group = "com.github.chenminhua"
+version = "0.0.1"
+description = "project backbone"
+//
+//
+//sourceCompatibility = 1.8
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//dependencies {
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+//    testCompile group: 'junit', name: 'junit', version: '4.12'
+//}
+//
+//compileKotlin {
+//    kotlinOptions.jvmTarget = "1.8"
+//}
+//compileTestKotlin {
+//    kotlinOptions.jvmTarget = "1.8"
+//}
