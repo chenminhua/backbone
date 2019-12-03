@@ -1,10 +1,11 @@
 buildscript {
     ext {
+        nexusUrl = "secret"
         kotlinVersion = '1.2.30'
         springBootVersion = '2.0.4.RELEASE'
     }
     repositories {
-        maven { url "http://nexus.blacklake.tech/repository/maven-public/" }
+        maven { url "${nexusUrl}/repository/maven-public/" }
         mavenCentral()
     }
     dependencies {
@@ -42,7 +43,7 @@ configure(subprojects.findAll { it.name != 'barren-demo' }) {
             springBootVersion = '2.0.4.RELEASE'
         }
         repositories {
-            maven { url "http://nexus.blacklake.tech/repository/maven-public/" }
+            maven { url '${nexusUrl}/repository/maven-public/' }
             mavenCentral()
         }
     }
@@ -71,8 +72,33 @@ configure(subprojects.findAll { it.name != 'barren-demo' }) {
     }
 
     repositories {
-        maven { url "http://nexus.blacklake.tech/repository/maven-public/" }
+        maven { url "${nexusUrl}/repository/maven-public/" }
         mavenLocal()
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+
+        repositories {
+            maven {
+                credentials {
+                    username "admin"
+                    password "1234qwer"
+                }
+
+                if(project.version.endsWith('-SNAPSHOT')) {
+                    url "${nexusUrl}/repository/maven-snapshots/"
+                } else {
+                    url "${nexusUrl}/repository/maven-releases/"
+                }
+            }
+        }
+
+
     }
 
     compileJava.dependsOn(processResources)
