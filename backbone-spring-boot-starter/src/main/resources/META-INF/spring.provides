@@ -1,0 +1,4 @@
+provides: barren-spring-boot-starter
+  spring-boot-starter-test,
+  spring-boot-actuator,
+  spring-boot-starter-web

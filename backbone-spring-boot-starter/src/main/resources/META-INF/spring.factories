@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.github.chenminhua.backbone.swagger.SwaggerAutoConfiguration,\
+com.github.chenminhua.backbone.sentry.SentryAutoConfiguration
