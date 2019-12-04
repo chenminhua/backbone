@@ -1,3 +1,4 @@
 rootProject.name = 'backbone'
 include 'backbone-spring-boot-starter'
+include "backbone-demo"
 

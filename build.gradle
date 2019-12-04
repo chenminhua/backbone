@@ -1,3 +1,8 @@
+group = 'com.github.chenminhua'
+version = '0.0.1'
+
+description = """project barren"""
+
 buildscript {
     ext {
         nexusUrl = System.getenv("nexusUrl")
@@ -21,18 +26,16 @@ buildscript {
     }
 }
 
-plugins {
-    id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.21'
-}
-
 allprojects {
     apply plugin: "idea"
 }
 
-configure(subprojects.findAll { it.name != 'backbone-demo' }) {
+configure(subprojects.findAll { it.name != 'backbone-Ddemo' }) {
+
+    group = "com.github.chenminhua"
+
     apply plugin: 'kotlin'
-//    apply plugin: 'kotlin-spring'
+    apply plugin: 'kotlin-spring'
     apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
@@ -43,7 +46,7 @@ configure(subprojects.findAll { it.name != 'backbone-demo' }) {
             springBootVersion = '2.0.4.RELEASE'
         }
         repositories {
-            maven { url '${nexusUrl}/repository/maven-public/' }
+            maven { url "${nexusUrl}/repository/maven-public/" }
             mavenCentral()
         }
     }
@@ -103,28 +106,4 @@ configure(subprojects.findAll { it.name != 'backbone-demo' }) {
 
     compileJava.dependsOn(processResources)
 
-
 }
-
-group = "com.github.chenminhua"
-version = "0.0.1"
-description = "project backbone"
-//
-//
-//sourceCompatibility = 1.8
-//
-//repositories {
-//    mavenCentral()
-//}
-//
-//dependencies {
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-//    testCompile group: 'junit', name: 'junit', version: '4.12'
-//}
-//
-//compileKotlin {
-//    kotlinOptions.jvmTarget = "1.8"
-//}
-//compileTestKotlin {
-//    kotlinOptions.jvmTarget = "1.8"
-//}
